@@ -1,0 +1,61 @@
+import pandas as pd
+import numpy as np
+import matplotlib as pltlb
+import matplotlib.pyplot as plt
+
+def main():
+    has_csv = input('Do you have a csv file? Y/N: ').lower()
+    if has_csv == 'y':
+        files = ['main_data', 'data_trial','usa_poland']
+        print(files)
+        what_file_to_process = input("What file to open?: ")
+        show_data = pd.read_csv(what_file_to_process)
+        print(show_data)
+        plot = input("Plot? Y/N: ").lower()
+        if plot == 'y':
+            print(list(show_data))
+            frame = pd.read_csv(what_file_to_process)
+
+            #Use csv data to plot
+            print("Available columns")
+            for col in frame.columns:
+                print(col)
+
+            plot_on_x = input("X: ")
+            plot_on_y = input("Y: ")
+            plt.figure(figsize=(9,6))
+            plt.bar(x=frame[plot_on_x],height=frame[plot_on_y])
+            plt.legend([plot_on_y])
+            plt.show()
+
+            plt.plot(frame.Dates, frame[plot_on_x])
+            plt.plot(frame.Dates, frame[plot_on_y])
+            plt.legend([plot_on_x, plot_on_y])
+            plt.show()
+
+            done = input("Done?: ").lower()
+            if done == 'done':
+                    main()
+        else:
+            done = input("Done?: ").lower()
+            if done == 'done':
+                main()
+    else:
+        print("Create One!")
+        ref= int(input("How many values?: "))
+        main_data = []
+        ref2 = int(input('How many columns?: '))
+        for x in range(ref2):
+            add_to_list = input("Name of a column: ")
+            main_data.append(add_to_list)
+            print(main_data)
+
+
+        dates = pd.date_range('20200304', periods=ref)
+        print(dates)
+        df = pd.DataFrame(np.random.randn(ref,ref2), columns=main_data, index=dates)
+        print(df)
+        name_of_file = input("Name of the file: ")
+        df.to_csv(name_of_file)
+
+main()
